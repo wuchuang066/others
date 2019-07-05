@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="js/vue.js"></script>
+    <title>my-project</title>
+</head>
+
+<body id="example" @click="up">
+    <div>
+        <div id="didi-navigator">
+            <ul>
+                <li v-for="tab in tabs">
+                    {{tab.text}}
+                </li>
+            </ul>
+            <span>
+                Text:{{tabs[0].text}}
+            </span>
+            <div v-html="htmlText"></div>
+            <!-- <div >
+            {{{htmlText}}}
+            </div> -->
+            <div>
+                {{trueText?1:0}}
+                {{grades/10}}
+            </div>
+            <div>
+                {{upperCase | my('args1  ') | my('args3  ')}}
+            </div>
+            <div v-if="show"> show 展示内容</div>
+            <a v-bind:href="url">链接</a>
+            <div v-on:click="item+=1">{{item}}</div>
+            <input type="button" value="按钮" v-on:click="item+=1">
+            {{item}}
+            <input type="button" value="打招呼" v-on:click="greet">
+            <input type="button" value="打招呼缩写" @click="greet">
+            <input placeholder="测试keyup.enter" v-model="enterMessage" @keyup.enter="greet">
+            {{res}}
+        </div>
+        <div id="didi-navigate2">
+            {{textMessage}}
+        </div>
+        <div id="navigate3">
+            <template id="temp" v-if="ok">
+                <div>
+                    <h1 v-show="showa">h1</h1>
+                    <p>pp</p>
+                    <p v-if="showa">我是对的</p>
+                    <p v-else="showa">我是错的</p>
+
+                </div>
+            </template>
+        </div>
+        <div>
+            <form id="formData">
+                姓名：
+                <input type="text" v-model="user.name" placeholder="请输入姓名"></br>
+                性别：
+                <input type="radio" id="man" name="sex" value="1" v-model="user.sex">
+                <label for="man">男</label>
+                <input type="radio" id="woman" name="sex" value="0" v-model="user.sex">
+                <label for="woman">女</label>
+                </br>
+                兴趣：
+                <input type="checkbox" id="book" value="1" v-model="user.hobby">
+                <label for="book">阅读</label>
+                <input type="checkbox" id="swim" value="2" v-model="user.hobby">
+                <label for="swim">游泳</label>
+                <input type="checkbox" id="exercise" value="3" v-model="user.hobby">
+                <label for="exercise">健身</label>
+                <input type="checkbox" id="game" value="4" v-model="user.hobby">
+                <label for="game">游戏</label>
+                <input type="checkbox" id="sing" value="5" v-model="user.hobby">
+                <label for="sing">唱歌</label>
+                </br>
+                身份：
+                <select v-model="user.identity">
+                    <option value="teacher" selected>老师</option>
+                    <option value="doctor">医生</option>
+                    <option value="lawyer">律师</option>
+                </select>
+                {{user.name}}
+                {{user.sex}}
+                {{user.hobby}}
+                {{user.identity}}</br>
+                <input type="text" v-model.lazy="username">{{username}}
+                <input type="text" v-model="username1" debounce="5000">{{username1}}
+            </form>
+        </div>
+        <div id="forMessage">
+            <ul>
+                <li v-for="(item,index) in items">
+                    {{parentMessage}}-{{ index }}-{{item.msg}}
+                </li>
+            </ul>
+            <ul>
+                <li v-for="(item,index) of items">
+                    {{parentMessage}}-{{ index }}-{{item.msg}}
+                </li>
+            </ul>
+            <ul>
+                <li v-for="(value,key) in priValues">{{key}}---{{value}}</li>
+                <li>=====</li>
+                <li v-for="(value,key) in objValues">{{key}}---{{value.msg}}</li>
+
+            </ul>
+        </div>
+        <!-- <div id="forFilterMessage">
+            <span>SearchByName:</span>
+            <input type="text" v-model="searchQuery">
+            <ul>
+                <li v-for="user in users">{{user.name | capitalize}}</li>
+            </ul>
+
+        </div> -->
+
+        <!-- <div id="app">
+            <span>SearchByName: </span>
+            <input v-model="searchQuery">
+            <table>
+                <thead>
+                    <tr>
+                        <td v-for="col in columns">{{col|capitalize}}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="entry in filteredData">
+                        <td v-for="col in columns">{{entry[col]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+        <div id="spanMsg">
+            <span v-text="msg"></span>
+            <!-- 和下面的一样 -->
+            <span>{{msg}}</span>
+        </div>
+        <div id="demo" v-demo:hello.a.b="msg">
+
+        </div>
+    </div>
+    <script>
+        Vue.directive('demo', {
+            bind: function(){
+                console.log('demo bound!');
+            },
+            update: function (value) {
+                this.el.innerHTML = 'name - ' + this.name + '<br>' +
+                    'expression -' + this.expression + '<br>' +
+                    'argument -' + this.arg + '<br>' +
+                    'modifiers -' + JSON.stringify(this.modifiers) + '<br>' +
+                    'value -' + value + '<br>' +
+                    'vm-msg' + this.vm.msg
+            }
+        })
+        var demo = new Vue({
+            el: "#example",
+            data: {
+                msg: "hello!"
+            },
+            methods: {
+                up: function () {
+                    console.info("click");
+                }
+            }
+        })
+        new Vue({
+            el: "#spanMsg",
+            data: {
+                msg: "span测试"
+            }
+        })
+        // new Vue({
+        //     el: '#app',
+        //     data: {
+        //         searchQuery: '',
+        //         columns: ['name', 'gender', 'age'],
+        //         data: [{
+        //             name: 'Jack',
+        //             gender: 'male',
+        //             age: 26
+        //         }, {
+        //             name: 'John',
+        //             gender: 'female',
+        //             age: 20
+        //         }, {
+        //             name: 'Lucy',
+        //             gender: 'female',
+        //             age: 16
+        //         }]
+        //     },
+        //     filters: {
+        //         capitalize: function (value) {
+        //             return value.charAt(0).toUpperCase() + value.slice(1);
+        //         }
+        //     },
+        //     computed: {
+        //         filteredData: function () {
+        //             var self = this;
+        //             return this.data.filter(function (item) {
+        //                 return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        //             })
+        //         }
+        //     }
+        // });
+
+        // new Vue({
+        //     el: "#forFilterMessage",
+        //     data: {
+        //         searchQuery: '',
+        //         users: [
+        //             {
+        //                 name: "快车",
+        //                 tag: "1"
+        //             },
+        //             {
+        //                 name: "出租车",
+        //                 tag: "2"
+        //             },
+        //             {
+        //                 name: "客车",
+        //                 tag: "3"
+        //             },
+        //             {
+        //                 name: "专车",
+        //                 tag: "4"
+        //             }
+        //         ]
+        //     },
+        //     filters: {
+        //         capitalize: function (value) {
+        //             return value.charAt(0).toUpperCase() + value.slice(1);
+        //         }
+        //     },
+        //     computed: {
+        //         filteredData: function () {
+        //             var self = this;
+        //             return this.data.filter(function (item) {
+        //                 return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        //             })
+        //         }
+        //     }
+        // })
+        new Vue({
+            el: "#forMessage",
+            data: {
+                parentMessage: "滴滴",
+                items: [
+                    { msg: "顺风车" },
+                    { msg: "快车" }
+                ],
+                priValues: {
+                    FirstName: "tom",
+                    LastName: "Jerry",
+                    Age: "4"
+                },
+                objValues: {
+                    one: {
+                        msg: "Hello"
+                    },
+                    two: {
+                        msg: "DIDI"
+                    }
+                }
+            }
+        })
+        new Vue({
+            el: "#formData",
+            data: {
+                user: {
+                    name: "wuc",
+
+                    sex: 1,
+                    hobby: ["1", '2'],
+                    identity: "doctor"
+                },
+                username: "wuccc",
+                username1: "wuccc1"
+            }
+        })
+        new Vue({
+            el: '#didi-navigator',
+            data: {
+                tabs: [
+                    { text: '巴士' },
+                    { text: '快车' },
+                    { text: '顺风' },
+                    { text: '出租' },
+                    { text: '代驾' }
+                ],
+                htmlText: '<span> span </span>',
+                trueText: false,
+                grades: 100,
+                upperCase: "arg2",
+                show: true,
+                url: "http://www.baidu.com",
+                item: 1,
+                res: 123,
+                enterMessage: ''
+            },
+            filters: {
+                my: function (value1, arg1) {
+                    return arg1 + value1;
+                }
+            },
+            methods: {
+                greet: function () {
+
+                    alert(this.enterMessage);
+                    this.res = 'Hello' + this.item + '!';
+                }
+            }
+        })
+        new Vue({
+            el: '#didi-navigate2',
+            data: {
+                textMessage: 'message2'
+            }
+        })
+        new Vue({
+            el: '#navigate3',
+            data: {
+                textMessage: 'message2',
+                showa: false
+            },
+            template: "#temp"
+        })
+    </script>
+
+</body>
+
+</html>

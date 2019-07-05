@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试 vue-resource</title>
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function(){
+            var vm = new Vue({
+                el:'#box',
+                data:{
+                    msg:'Hello World!',
+                },
+                methods:{
+                    get:function(){
+                        //发送get请求
+                        this.$http.get('http://localhost:8081/user/test',{a:1}).then(function(res){
+                            console.log(res.body);
+                        },function(){
+                            console.log('请求失败处理');
+                        });
+                       
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="box">
+    <input type="button" @click="get()" value="按钮">
+</div>
+ 
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="js/vue.js"></script>
+    <title>my-project</title>
+</head>
+
+<body>
+    <div id="example">
+        <didi-component></didi-component><br>
+        <div id="doubleMsg">
+            <input type="text" v-model="info.name">
+            <children v-bind:msg.once="info"></children>
+
+        </div>
+
+
+
+    </div>
+</body>
+<script>
+
+    new Vue({
+        el: "#doubleMsg",
+        data: function () {
+            return {
+                info: {
+                    name: '顺风车'
+                }
+            }
+        },
+        components: {
+            'children': {
+                props: ['msg'],
+                template: '<div>{{msg.name}} DDFamily</div>'
+            }
+
+        }
+    })
+    var DIDIComponent = Vue.extend({
+        template: '<div>A customer component </div>'
+    })
+    //注册
+    Vue.component('didi-component', DIDIComponent)
+
+    new Vue({
+        el: "#example"
+    })
+</script>
+
+</html>

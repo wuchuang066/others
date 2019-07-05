@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="js/vue.js"></script>
+    <title>my-project</title>
+</head>
+
+<body>
+        <div data-v-3a8bfd4e="" class="login-wrap"><div data-v-3a8bfd4e="" class="ms-login"><div data-v-3a8bfd4e="" class="ms-title">XXX后台管理系统</div><form data-v-3a8bfd4e="" class="el-form ms-content"><div data-v-3a8bfd4e="" class="el-form-item is-required el-form-item--small"><!----><div class="el-form-item__content" style="margin-left: 0px;"><div data-v-3a8bfd4e="" class="el-input el-input--small el-input-group el-input-group--prepend"><div class="el-input-group__prepend"><button data-v-3a8bfd4e="" type="button" class="el-button el-button--default el-button--small"><!----><i class="el-icon-lx-people"></i><!----></button></div><input type="text" autocomplete="off" placeholder="username" class="el-input__inner"><!----><!----><!----><!----></div><!----></div></div><div data-v-3a8bfd4e="" class="el-form-item is-required el-form-item--small"><!----><div class="el-form-item__content" style="margin-left: 0px;"><div data-v-3a8bfd4e="" class="el-input el-input--small el-input-group el-input-group--prepend"><div class="el-input-group__prepend"><button data-v-3a8bfd4e="" type="button" class="el-button el-button--default el-button--small"><!----><i class="el-icon-lx-lock"></i><!----></button></div><input type="password" autocomplete="off" placeholder="password" class="el-input__inner"><!----><!----><!----><!----></div><!----></div></div><div data-v-3a8bfd4e="" class="login-btn"><button data-v-3a8bfd4e="" type="button" class="el-button el-button--primary el-button--small"><!----><!----><span>登录</span></button></div><p data-v-3a8bfd4e="" class="login-tips">Tips : 用户名和密码随便填。</p></form></div></div>
+</body>
+<script>
+    var vm = new Vue({
+       ready:function(){
+           alert(11);
+           this.$http({
+               url:'/book',
+               method:'POST',
+               data:{
+                   cat:'1'
+               },
+               headers:{
+                   'Content-Type':'x-www-form-urlencoded'
+               }
+           }).then(function (response){
+               alert("success"+response)
+           },function(response){
+               alert("error"+response)
+           })
+       }
+    })
+</script>
+
+
+
+</html>

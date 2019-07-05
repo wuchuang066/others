@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="js/vue.js"></script>
+    <title>my-project</title>
+</head>
+
+<body>
+    <div>
+        <h1> 表单控件</h1>
+        <div id="example">
+            <input type="text" v-model.lazy="didi">
+            <p v-text="didi" v-show="true"></p>
+
+            <input type="radio" id="bus" value="0" v-model="radioMsg">
+            <label for="bus">公交</label>
+            <input type="radio" id="tax" value="1" v-model="radioMsg">
+            <label for="tax">出租车</label><br>
+            {{radioMsg}}<br>
+
+            <input type="checkbox" id="fastCar" name="fastCar" :value="0" v-model="checkMsg">
+            <label for="fastCar">快车</label>
+            <input type="checkbox" id="zhuanCar" name="zhuanCar" :value="1" v-model="checkMsg">
+            <label for="zhuanCar">专车</label>
+            <input type="checkbox" id="bus" name="bus" :value="2" v-model="checkMsg">
+            <label for="bus">巴士</label><br>
+            {{checkMsg}}<br>
+
+            <select v-model="selectMsg">
+                <option value="flash" selected>快车</option>
+                <option value="tax">出租车</option>
+                <option value="bus">公交</option>
+            </select>
+            <span>{{selectMsg}}</span><br>
+            <select v-model="selectMsg1" multiple>
+                <option value="flash" selected>快车</option>
+                <option value="tax">出租车</option>
+                <option value="bus">公交</option>
+            </select>
+            <span>{{selectMsg1}}</span><br>
+            <select v-model="selectFor">
+                <option v-for="option in options" :value="option.value">
+                    {{option.text}}
+                </option>
+            </select>
+            <span>{{selectFor}}</span>
+            <br>
+            <span v-text="filterTest "></span>
+            {{filterTest | alertText('456')}}<br>
+            <button @click="say('hello',$event)"> ceshi event</button><br>
+            <input v-on:click="onClick" @keyup.enter="onKeyUp">
+        </div>
+    </div>
+</body>
+<script>
+
+    new Vue({
+        el: "#example",
+        data: {
+            didi: '',
+            checkMsg: [],
+            radioMsg: '',
+            selectMsg: '',
+            selectMsg1: [],
+            selectFor: '',
+            filterTest: "text1",
+            options: [
+                { text: '快车', value: 'falsh' },
+                { text: '出租车', value: 'tax' },
+                { text: '巴士', value: 'bus' }
+
+            ]
+        },
+        methods: {
+            say: function (value, event) {
+                alert(value);
+                event.preventDefault();
+            },
+            onClick:function(){
+                alert("onclick chufa");
+            },
+            onKeyUp:function(){
+                alert("onKeyUp chufa");
+            },
+            onKeyDown:function(){
+                alert("onKeyDown chufa");
+            }
+        },
+        filters: {
+            alertText: function (value) {
+                console.log(value);
+                return value + "filter";
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>基础Vue</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/component.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			{{message}} 绑定元素<br>
+			<span v-bind:title="message2">
+				鼠标悬停几秒钟查看此处动态绑定的提示信息！ 提示在鼠标放在上面之后的页面提示下面{{message2}}
+			</span>
+			<div v-if="seen">
+				检测if 是否能看见
+			</div>
+			<div>
+				<ol>
+					<li v-for="todo in todos">{{todo.text}}</li>
+					<ul v-for="todo in todos">{{todo.text}}</ul>
+				</ol>>
+			</div>
+			<div id="">
+				<p>{{message}}</p>
+				<button type="button" v-on:click="showMessage">显示消息</button>
+			</div>
+			<div id="">
+				<p>{{message}}</p>
+				<input type="" name="" id="" value="" v-model="message"/>
+			</div>
+			<div id="">
+				 <!-- 创建一个 todo-item 组件的实例 -->
+				<todo-item v-for="todo2 in todos"
+				v-bind:todo1="todo2"
+				v-bind:key="todo2.id"
+				></todo-item>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: "#app",
+			data: {
+				message: "hello world",
+				message2: '页面加载于 ' + new Date().toLocaleString(),
+				seen: true,
+				todos: [{
+					id:1,
+					text: "123"
+				}, {
+					id:2,
+					text: "234"
+				}, {
+					id:3,
+					text: "345"
+				}]
+			},
+			methods:{
+				showMessage:function(){
+					this.message = this.message.split('').reverse().join('')
+					//this.message = this.message.split('').reverse().join('')
+				}
+			}
+		})
+	</script>
+</html>
