@@ -3,16 +3,38 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<script type="text/javascript" src="js/vue.js">
-
-		</script>
+		<!-- <script type="text/javascript" src="js/vue.js"></script> -->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 	</head>
 	<body>
 		<div id="app-2">
-			 <!-- v-once 绑定的变化之只会渲染一次 当数据更新时候不会二次渲染 -->
+			<!-- v-once 绑定的变化之只会渲染一次 当数据更新时候不会二次渲染 -->
 			<p id="mountedMsg" v-once>{{ message2.foo }}</p>
 			<!-- 这里的 `foo` 不会更新！ -->
 			<button v-on:click="message2.foo = 'baz'">Change it</button>
+			<div>
+				<p>Using mustaches: {{ rawHtml }}</p>
+				<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+			</div>
+			<div id="">
+				<a v-bind:href="url">...</a>
+				<a v-on:click="doSomething">v-on:click</a>
+			</div>
+			<div id="">
+				<!-- 参数名称（attributename）不支持驼峰式 必须都是小写字母才好用 -->
+				<!-- 另外，如果你在 DOM 中使用模板 (直接在一个 HTML 文件里撰写模板)，需要留意浏览器会把特性名全部强制转为小写：
+
+				 在 DOM 中使用模板时这段代码会被转换为 `v-bind:[someattr]` 
+				<a v-bind:[someAttr]="value"> ... </a> -->
+				<a v-on:[attributeName]="eventClick">v-on:eventName</a>
+			</div>
+			<div>
+				 <!-- .prevent  还不懂是怎么去用 -->
+				<form v-on:submit.prevent="onSubmit">
+					<input type="text" v-model="url">
+					<input type="submit" >
+				</form>
+			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -24,7 +46,10 @@
 			el: '#app-2',
 			data: {
 				message: '页面加载于 ' + new Date().toLocaleString(),
-				message2: data
+				message2: data,
+				rawHtml: '<span style="color:red"> This should be red.</span>',
+				url: "www.baidu.com",
+				attributename: "click"
 			},
 			// 不要在选项属性或回调上使用箭头函数，比如 created: () => console.log(this.a) 或 vm.$watch('a', newValue => this.myMethod())。,
 			// 因为箭头函数并没有 this，this 会作为变量一直向上级词法作用域查找，直至找到为止，
@@ -35,7 +60,7 @@
 			},
 			created: function() {
 				// 实例创建之后被调用
-			//	console.log('foo is ' + this.message2.foo);
+				//	console.log('foo is ' + this.message2.foo);
 				console.log("created " + document.getElementById("mountedMsg").innerHTML);
 			},
 			beforeMount: function() {
@@ -61,6 +86,17 @@
 			destroyed: function() {
 				//Vue 实例销毁后调用  不知道怎么演示
 				console.log("destoryed" + this.message2.foo);
+			},
+			methods: {
+				doSomething: function() {
+					alert("v-on click");
+				},
+				eventClick: function() {
+					alert("eventClick");
+				},
+				onSubmit:function(){
+					alert(this.url);
+				}
 			}
 		})
 	</script>
