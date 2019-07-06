@@ -4,11 +4,15 @@
 		<meta charset="utf-8">
 		<title>计算属性</title>
 		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/component.js"></script>
 	</head>
 	<body>
 		<div id="app3">
 			<p>Original message: "{{ message }}"</p>
-			<p>Computed reversed message: "{{ reversedMessage }}"</p>
+			<!-- 方法需要加（）  计算属性不需要加（） -->
+			<p>Computed reversed message: "{{ reversedMessage() }}"</p>
+			<p>Computed reversed message: "{{ reversedMessage1 }}"</p>
+
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -17,13 +21,19 @@
 			data: {
 				message: 'Hello'
 			},
+			methods: {
+				reversedMessage: function() {
+					return this.message.split('').reverse().join('')
+				}
+			},
 			computed: {
 				// 计算属性的 getter
-				reversedMessage: function() {
+				reversedMessage1: function() {
 					// `this` 指向 vm 实例
 					return this.message.split('').reverse().join('')
 				}
 			}
+
 		})
 	</script>
 </html>
