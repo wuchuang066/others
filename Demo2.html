@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<!-- <script type="text/javascript" src="js/vue.js"></script> -->
-		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script> -->
 	</head>
 	<body>
 		<div id="app-2">
@@ -17,8 +17,11 @@
 				<p>Using v-html directive: <span v-html="rawHtml"></span></p>
 			</div>
 			<div id="">
-				<a v-bind:href="url">...</a>
-				<a v-on:click="doSomething">v-on:click</a>
+				<a v-bind:href="url">...</a><br>
+				<a :href="url">v-bind 缩写</a><br>
+				<a v-on:click="doSomething">v-on:click</a><br>
+				<!-- v-on 缩写 -->
+				<a @click="doSomething">@:click</a>
 			</div>
 			<div id="">
 				<!-- 参数名称（attributename）不支持驼峰式 必须都是小写字母才好用 -->
