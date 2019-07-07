@@ -9,17 +9,22 @@
 	<body>
 		<div id="app3">
 			<p>Original message: "{{ message }}"</p>
-			<!-- 方法需要加（）  计算属性不需要加（） -->
+			<!-- 方法需要加（）  计算属性不需要加（） 计算属性是基于它们的响应式依赖进行缓存的-->
+			<!-- 我们为什么需要缓存？假设我们有一个性能开销比较大的计算属性 A，它需要遍历一个巨大的数组并做大量的计算。
+			然后我们可能有其他的计算属性依赖于 A 。如果没有缓存，我们将不可避免的多次执行 A 的 getter！如果你不希望有缓存，请用方法来替代。 -->
 			<p>Computed reversed message: "{{ reversedMessage() }}"</p>
 			<p>Computed reversed message: "{{ reversedMessage1 }}"</p>
-
+			<p>监听属性 get set </p>
+			<p>{{fullName}}</p>
 		</div>
 	</body>
 	<script type="text/javascript">
 		var vm = new Vue({
 			el: '#app3',
 			data: {
-				message: 'Hello'
+				message: 'Hello',
+				firstName: 'john',
+				lastName: 'smith'
 			},
 			methods: {
 				reversedMessage: function() {
@@ -31,8 +36,27 @@
 				reversedMessage1: function() {
 					// `this` 指向 vm 实例
 					return this.message.split('').reverse().join('')
+				},
+				fullName: {
+					get:function(){
+						return this.firstName+'  '+this.lastName
+					},
+					set:function(newValue){
+						const names = newValue.split(' ');
+						this.firstName = names[0];
+						this.lastName = names[1];
+					}
+					// return this.firstName + ' ' + this.lastName
 				}
 			}
+			// computed: {
+			// 
+			// 	fullName:{
+			// 		get:function(){
+			// 			return this.firstName+' ' + this.lastName
+			// 		}
+			// 	}
+			// }
 
 		})
 	</script>
