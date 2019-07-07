@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Class 与 Style 绑定</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/component.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{test}}
+			<div class="static" v-bind:class="{active: isActive,'text-danger':hasError}">
+			</div>
+			<div v-bind:class="classObj">classObj</div>
+			<div v-bind:class="classObject">classObject</div>
+			<div v-bind:class="[isActive?activeClass:errorClass]">[数组形式class]</div>
+			<div v-bind:class="[{active:isActive},errorClass]">[数组形式class]</div>
+			<my-component class="class1 class3"></my-component>
+			<my-component v-bind:class="{active:isActive}"></my-component>
+			<div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"> nihao </div>
+			<div v-bind:style="styleObj"> 绑定对象的style </div>
+			<div v-bind:style="[baseStyles, overridingStyles]"> 数组对象style</div>
+			<h2>条件渲染</h2>
+			<div>
+				<h1 v-if="awesome">Vue is awesome!</h1>
+				<h1 v-else>Oh no 😢</h1>
+				<template v-if="ok">
+					<h1>Title</h1>
+					<p>Paragraph 1</p>
+					<p>Paragraph 2</p>
+				</template>
+				<div v-if="Math.random() > 0.5">
+					Now you see me
+				</div>
+				<div v-else>
+					Now you don't
+				</div>
+				<div v-if="type === 'A'">
+					A
+				</div>
+				<div v-else-if="type === 'B'">
+					B
+				</div>
+				<div v-else-if="type === 'C'">
+					C
+				</div>
+				<div v-else>
+					Not A/B/C
+				</div>
+			</div>
+			<template v-if="loginType === 'username'" >
+				<label>Username</label>
+				<input placeholder="Enter your username" key='username-input'>
+			</template>
+			<template v-else>
+				<label>Email</label>
+				<input placeholder="Enter your email address" key='email-input'>
+			</template><br>
+			<button @click="changeType">changeType</button>
+			<div v-show=false> v-show</div>
+			<div v-if=true> v-if</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				ok: true,
+				type: 'A',
+				test: "aaa",
+				isActive: true,
+				hasError: true,
+				error: false,
+				activeClass: 'active',
+				errorClass: 'text-danger',
+				activeColor: 'red',
+				loginType: 'username',
+				fontSize: 30,
+				changeCount: 0,
+				awesome: true,
+				// changeType:'username',
+				classObj: {
+					active: false,
+					'text-danger': true
+				},
+				baseStyles: {
+					fontSize: '20px'
+				},
+				overridingStyles: {
+					color: 'green'
+				},
+				styleObj: {
+					color: 'blue',
+					fontSize: '20px'
+				}
+			},
+			computed: {
+				classObject: function() {
+					return {
+						active: this.isActive && !this.error,
+						'text-danger': this.isActive && this.error,
+					}
+				}
+			},
+			methods: {
+				changeType: function() {
+					if (this.changeCount % 2 == 0) {
+						this.loginType = '';
+					} else {
+						this.loginType = 'username';
+					}
+					this.changeCount++;
+				}
+			}
+
+		})
+	</script>
+</html>

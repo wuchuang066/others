@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>列表渲染</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id='app'>
+			<div>{{test}}</div>
+			<ul>
+				<li v-for="item in items">
+					{{item.text}}
+				</li>
+			</ul>
+			<ul>
+				<li v-for="(item,index) in items">
+					{{item.text}}+{{index}}
+				</li>
+			</ul>
+			<ul>
+				<li v-for="(item,index) of items">
+					{{item.text}}+{{index}}
+				</li>
+			</ul>
+			<!-- 你也可以用 v-for 来遍历一个对象的属性 -->
+			<ul>
+				<li v-for="value of vFor">
+					{{value}}
+				</li>
+			</ul>
+			<ul>
+				<!-- 顺序有关系 不能放在第一个上面 -->
+				<li v-for="(value123,name,index) of vFor">
+					{{index}}+{{name}}+{{value123}}
+				</li>
+			</ul>
+			<div v-for="item in items" v-bind:key="item.id">
+				<!-- 内容 -->{{item}}
+			</div>
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				test: "23432",
+				vFor: {
+					title: "title123",
+					message: "message123"
+				},
+				items: [{
+					id:1,
+					text: "text1"
+				}, {
+					id:2,
+					text: "text2"
+				}]
+			}
+		})
+	</script>
+</html>
