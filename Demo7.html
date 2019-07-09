@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="js/vue.js"></script>
+		<title>事件处理</title>
+	</head>
+	<body>
+		<div id='app'>
+			{{test}}
+			<button v-on:click="counter += 1">Add 1</button>
+			<p>The button above has been clicked {{ counter }} times.</p>
+			<button v-on:click="greet">Greet</button>
+			<button @click="say($event)">say(hi)</button>
+			<p>事件修饰符</p>
+			<!-- 阻止单击事件继续传播 -->
+			<a v-on:click.stop="doThis('do This')">阻止单击事件继续传播</a>
+			<div class="outeer" @click="outer">
+				　　　　<div class="middle" @click.stop="middle">
+					　　　　　　<button @click="inner">点击我(^_^)</button>
+					　　　　</div>
+				　　</div>
+			　　<p>{{ message }}</p>
+			<!-- 提交事件不再重载页面 -->
+			<a href='www.baidu.com' v-on:click.prevent="doThis('do This')">组织触发默认事件</a>
+
+			<!-- 修饰符可以串联 -->
+			<a v-on:click.stop.prevent="doThat('do That')">修饰符可以串联</a>
+			<!-- 添加事件监听器时使用事件捕获模式 -->
+			<!-- 就是先触发又capture 修饰的事件 然后再依次从里层向外层冒泡 -->
+			<div v-on:click.capture="doThis('do This')">添加事件监听器时使用事件捕获模式</div>
+			　　<div class="outeer" @click.capture="outer2">
+				　　　　<div class="middle" @click="middle2">
+					　　　　　　<button @click="inner2">点击我(^_^)capture</button>
+					　　　　</div>
+				　　</div>
+			{{message2}}
+
+			<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+			<!-- 即事件不是从内部元素触发的 是因为.self只执行直接作用在该元素身上的事件，所以它相当于忽略了 其他元素的冒泡或者捕获事件。但是这种忽略只局限于自身-->
+			<div v-on:click.self="doThat('do That')">即事件不是从内部元素触发的</div>
+			<div class="outeer" @click.self="outerSelf">
+				　　　　<div class="middle" @click.self="middleSelf">
+					　　　　　　<button @click="innerSelf">点击我(^_^)self</button>
+					　　　　</div>
+				　　</div>
+			{{messageSelf}}
+
+			<!-- 点击事件将只会触发一次 -->
+			<a v-on:click.once="doThis">doThis once</a>
+			<p> 按键修饰符</p>
+			<input v-on:keyup.enter="doThis(inputMsg)" v-model='inputMsg' placeholder="请输入完成之后按enter键"><br>
+			<input v-on:keyup.page-down="doThis(inputMsg2)" v-model='inputMsg2' placeholder="请输入完成之后按page down键"><br>
+			<input v-on:keyup.delete="doThis(inputDelete)" v-model='inputDelete' placeholder="请输入完成之后按delete键"><br>
+			<input v-on:keyup.esc="doThis(inputEsc)" v-model='inputEsc' placeholder="请输入完成之后按esc键"><br>
+			<input v-on:keyup.space="doThis(inputSpace)" v-model='inputSpace' placeholder="请输入完成之后按space键"><br>
+			<input v-on:keyup.up="doThis(inputUp)" v-model='inputUp' placeholder="请输入完成之后按up键"><br>
+			<input v-on:keyup.down="doThis(inputDown)" v-model='inputDown' placeholder="请输入完成之后按down键"><br>
+			<input v-on:keyup.left="doThis(inputLeft)" v-model='inputLeft' placeholder="请输入完成之后按left键"><br>
+			<input v-on:keyup.right="doThis(inputRight)" v-model='inputRight' placeholder="请输入完成之后按right键"><br>
+			 <!-- 不好用 -->
+			<!-- <input v-on:keyup.112="doThis(inputDefined)" v-model='inputDefined' placeholder="请输入完成之后按f1键"><br> -->
+			<input @keyup.alt.67="clear" placeholder="请输入完成之后按alt + c键 同时按下 alt +c"style="width: 300px;">
+			<div @keyup.left="clear" placeholder="请输入完成之后按alt + c键 同时按下 alt +c"style="width: 300px;">ctrl+click</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				counter: 0,
+				test: 'sdf',
+				name: 'Vue.js',
+				message: '测试冒泡事件',
+				message2: '测试capture事件',
+				messageSelf: '测试self事件',
+				inputMsg:'',
+				inputMsg2:'',
+				inputTab:'',
+				inputDelete:'',
+				inputEsc:'',
+				inputSpace:'',
+				inputUp:'',
+				inputDown:'',
+				inputLeft:'',
+				inputRight:'',
+				inputDefined:''
+			},
+			methods: {
+				greet: function(event) {
+					// `this` 在方法里指向当前 Vue 实例
+					alert('Hello ' + this.name + '!')
+					// `event` 是原生 DOM 事件
+					if (event) {
+						alert(event.target.tagName)
+					}
+				},
+				say: function(event) {
+					console.log(event);
+				},
+				doThis: function(message) {
+					alert(message);
+					console.log(message);
+				},
+				doThat: function(message) {
+					alert(message);
+				},
+				inner: function() {
+					this.message = 'inner： 这是最里面的Button'
+				},
+				middle: function() {
+					this.message = 'middle: 这是中间的Div'
+				},
+				outer: function() {
+					this.message = 'outer: 这是外面的Div'
+				},
+				inner2: function() {
+					this.message2 = 'inner： 这是最里面的Button'
+				},
+				middle2: function() {
+					this.message2 = 'middle: 这是中间的Div'
+				},
+				outer2: function() {
+					this.message2 = 'outer: 这是外面的Div'
+				},
+				innerSelf: function() {
+					this.messageSelf = 'inner： 这是最里面的Button'
+				},
+				middleSelf: function() {
+					this.messageSelf = 'middle: 这是中间的Div'
+				},
+				outerSelf: function() {
+					this.messageSelf = 'outer: 这是外面的Div'
+				},
+				clear:function(){
+					alert('clear');
+				}
+			}
+		})
+		// 加载页面时候,直接调用此方法
+		//vm.greet();
+		//Vue.config.keyCodes.f2 = 112
+	</script>
+	
+</html>

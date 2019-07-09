@@ -37,8 +37,17 @@
 			</ul>
 			<div v-for="item in items" v-bind:key="item.id">
 				<!-- 内容 -->{{item}}
+			</div><br>
+			<div v-for="item in items2" v-bind:key="item.id">
+				<!-- 内容 -->{{item}}
 			</div>
 
+			<ul>
+				<template v-for="item in items">
+					<li>{{ item.msg }}</li>
+					<li class="divider" role="presentation"></li>
+				</template>
+			</ul>
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -51,13 +60,28 @@
 					message: "message123"
 				},
 				items: [{
-					id:1,
+					id: 1,
+					msg:'msg1',
 					text: "text1"
 				}, {
-					id:2,
+					id: 2,
+					msg:'msg2',
 					text: "text2"
-				}]
+				}],
+				items2: ['1', '2', '3']
 			}
 		})
+		// vm.items[0] = 'x'; // 不是响应式的
+		// vm.items.length = 2; // 不是响应式的
+		// vm.items2[2] = 'x'; // 设置完成之后不会响应到页面
+		// Vue.set
+		//Vue.set(vm.items2, 2, 'xx') // 解决直接赋值不能渲染页面问题
+		// Array.prototype.splice
+		//vm.items2.splice(0, 1, 'xxx')
+		// 解决数组长度不能修改问题  不过好像不好用
+		vm.items2.splice(4);
+		console.log(vm.items2.length)
+
+		//vm.$set(vm.items2, 0, 'newValue')
 	</script>
 </html>
