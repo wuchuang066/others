@@ -8,15 +8,82 @@
 	</head>
 	<body>
 		<div id='app'>
-			{{test}}
-			<button-counter></button-counter>
+			<!-- {{test}} -->
+			<button-counter :title="componentTestObject" :cBody="cBody"></button-counter>
+			<!-- // 局部注册的组件 -->
+			<!-- <component-a></component-a> -->
+			HTml: {{cBody}}
+			<h1>zujian</h1>
+			<div id="blog-posts-events-demo">
+				<div :style="{ fontSize: postFontSize + 'em' }">
+					<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="onEnlargeText"></blog-post>
+				</div>
+			</div>
+			<component-b></component-b>
 		</div>
 	</body>
 	<script type="text/javascript">
+        var childcom ={
+            data:function(){
+                return{
+                    num:0,
+                }
+            },
+            template:`<button v-on:click='change'>点我{{num}}次</button>`,
+            methods:{
+                change:function(){
+                    this.num += 1;
+                }
+            },
+			components:{
+				'component-a':componentA
+			}
+        }
 		var vm = new Vue({
-			el:'#app',
-			data:{
-				test:'test'
+			el: '#app',
+			data: {
+				test: 'test',
+				componentTestMessage: 'componentTestMessage123',
+				postFontSize: 1,
+				componentTestObject: {
+					title: '测试标题',
+					message: '测试内容'
+				},
+				posts: [{
+						id: 1,
+						title: 'My journey with Vue'
+					},
+					{
+						id: 2,
+						title: 'Blogging with Vue'
+					},
+					{
+						id: 3,
+						title: 'Why Vue is so fun'
+					}
+				],
+				cBody: [{
+						id: 1,
+						bodyMessage: "测试body message1"
+					},
+					{
+						id: 2,
+						bodyMessage: "测试body message2"
+					},
+					{
+						id: 3,
+						bodyMessage: "测试body message3"
+					}
+				]
+			},
+			components: {
+				'component-a': componentA,
+				'component-b':childcom
+			},
+			methods: {
+				onEnlargeText: function(args) {
+					this.postFontSize += args
+				}
 			}
 		})
 	</script>
